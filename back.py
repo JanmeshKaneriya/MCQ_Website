@@ -7,7 +7,9 @@ import threading
 import time
 
 
-#📄 Page setup 📄
+# -----------------------------
+# Page setup
+# -----------------------------
 
 st.set_page_config(
     page_title="AI MCQ Generator",
@@ -20,7 +22,9 @@ st.markdown(
     "<p style='text-align:center'>Generate MCQs from your study material using Qwen3 1.7B.</p>",
     unsafe_allow_html=True
 )
-
+# -----------------------------
+# PAGE COLORS
+# -----------------------------
 st.markdown("""
 <style>
 /* Main background */
@@ -38,15 +42,6 @@ h1, h2, h3, p, label {
 textarea {
     background-color: gray !important;
     color: white !important;
-    
-    border-radius:18px !important;
-    border: 2px solid #666 !important;
-    padding: 15px !important;
-}
-
-textarea:focus{
-    border:2px solid #FFC000 !important;
-    box-shadow: 0 0 8px rgba (255, 192, 0, 0.4) !important;
 }
 
 /* Number input background color */
@@ -54,10 +49,7 @@ input {
     background-color: gray !important;
     color: white !important;
 }
-input:focus{
-    border:2px solid #FFC000 !important;
-    box-shadow: 0 0 8px rgba (255, 192, 0, 0.4) !important;
-}
+
 /* all Buttons */
 button {
     background-color: #FFC000 !important;
@@ -66,19 +58,19 @@ button {
 </style>
 """, unsafe_allow_html=True)
 
-
 # -----------------------------
 # Input
 # -----------------------------
 
-# Create text area
+
+
+
 text = st.text_area(
     "📚 Enter your study material",
     height=300,
-    placeholder="Paste your study material here... \nUse longer text to generate more MCQs."
+    placeholder="Paste your study material here..."
 )
 
-# Create number selector
 question_count = st.number_input(
     "🔢 Number of MCQs",
     min_value=1,
@@ -322,7 +314,20 @@ if st.session_state.questions:
                 )
 
 
-  
+    # -----------------------------
+    # Download
+    # -----------------------------
+
+    st.download_button(
+        "⬇️ Download MCQs",
+        data=json.dumps(
+            {"questions": questions},
+            indent=2
+        ),
+        file_name="generated_mcqs.json",
+        mime="application/json",
+        use_container_width=True
+    )
 
 
     # -----------------------------
@@ -341,3 +346,4 @@ if st.session_state.questions:
         st.session_state.quiz_submitted = False
 
         st.rerun()
+
